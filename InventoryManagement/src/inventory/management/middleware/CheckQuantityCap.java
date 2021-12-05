@@ -19,13 +19,14 @@ public class CheckQuantityCap extends Middleware {
 		MISC
 	}
 	public boolean isValidInventory(InputInventory item) {
-	    boolean isValidItem=true;	  	  
+	    boolean isValidItem=true;	
+	    
 		try 
 		{			
 			InventoryItem it=this.server.readInventoryDetails(item.getItem());
 		    switch(Categories.valueOf(it.Category.toUpperCase()))
 		    {
-		    	case ESSENTIAL: if(item.getQuantity()>=Inventory.MAXEssentials)
+		    	case ESSENTIAL: if(item.getQuantity()>Inventory.MAXEssentials)
 		    					{
 		    						//isValidItem= ?false:true;return isValidItem;
 		    						System.out.println("item quantity is greater than the max lmit on essentials");
@@ -35,10 +36,10 @@ public class CheckQuantityCap extends Middleware {
 		    					{
 		    						//isValidItem= ?false:true;return isValidItem;
 		    						System.out.println("item quantity is less than the max lmit on essentials");
-		    						System.out.println(item.getItem()+" "+item.getQuantity()+item.getCardNumber());
+		    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
 		    						return true;
 		    					}
-		    	case LUXURY: if(item.getQuantity()>=Inventory.MAXLuxury)
+		    	case LUXURY: if(item.getQuantity()>Inventory.MAXLuxury)
 		    				 {
 		    						System.out.println("item quantity is greater than the max lmit on Luxury");
 		    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
@@ -50,7 +51,7 @@ public class CheckQuantityCap extends Middleware {
 		    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
 		    						return true;
 		    		  		 }
-		    	case MISC:  if(item.getQuantity()>=Inventory.MAXMisc)
+		    	case MISC:  if(item.getQuantity()>Inventory.MAXMisc)
 		    				{
 		    						//?false:true;return isValidItem;
 		    					System.out.println("item quantity is greater than the max lmit on Misc");
@@ -60,7 +61,7 @@ public class CheckQuantityCap extends Middleware {
 		    				else
 		    				{
 		    					System.out.println("item quantity is less than the max lmit on Misc");
-	    						System.out.println(item.getItem()+" "+item.getQuantity()+item.getCardNumber());
+	    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
 	    						return true;
 		    				}
 		    } 
