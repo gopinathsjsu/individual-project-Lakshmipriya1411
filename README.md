@@ -10,35 +10,34 @@ Project IDE: Eclipse
 Project Language: Java
 How to run/Invoking the code:
 Steps to run:
+Run from Command Prompt:
+1.	Create a folder InventoryApp in C folder
+
+![image](https://user-images.githubusercontent.com/88259438/144795602-9c3217ee-8f17-488f-8189-951b5200cdc9.png)
+
+2.	Download the InventoryApp.jar file from Git Repository.
+3.	Place all the input and dataset and creditcard csv files in the same folder
+4.	Run the jar file from command prompt in windows using this command
+
+![image](https://user-images.githubusercontent.com/88259438/144795685-6101441b-496e-4c23-b087-8397628b4bae.png)
+
+5.	Output files are found in the same folder as shown above. Output sheet1,Output sheet2, Output sheet3.
+6. To verify new test cases Use the filename with similar format starting with "Inputx - " and the output file will be generated with the number x provided in the input.
+
+Run from Eclipse:
+
 1.	Git clone the repository by going to Window-> Show view-> Other -> Git -> Git Repositories -> Clone a Git Repository -> choose the working directory in local.
-2.	Configure the Dataset and CrediCards csv file path 
-a.	Go to inventory.management.server.DAL package 
-b.	Click on InventoryItemDAOImpl.java file
-c.	Update the paths of the files/names of the files (To use project root directory just change the name of the file)
+2.	Place all the dataset, creditcard and input csv files in the project root directory.
 
-![image](https://user-images.githubusercontent.com/88259438/144788413-6216f60e-5fa1-4a89-82bd-fd97d4c07c90.png)
- 
-3.	Configure input csv file path/name
-a.	Go to inventory.management.client package 
-b.	Select InventoryClient.java file and update the name or path (To use project root directory just change the name of the file)
+![image](https://user-images.githubusercontent.com/88259438/144795952-7f11ff3b-3744-412f-9a88-91785931a5ad.png)
 
-![image](https://user-images.githubusercontent.com/88259438/144788461-cf7e9089-066e-4dd1-9357-8bb375d322c8.png)
-
-4.	To run the project -> Right Click on inventory.management.client project package and choose Run As -> Java Application. The same is shown in the screenshot below.
+3.	To run the project -> Right Click on inventory.management.client project package and choose Run As -> Java Application. The same is shown in the screenshot below.
 
 ![image](https://user-images.githubusercontent.com/88259438/144788477-363d4e90-4de1-405a-9dd6-878d68f33097.png)
 
-5.	Path to output files is in root directory
+4.	Path to output files is in root directory
 
-![image](https://user-images.githubusercontent.com/88259438/144788497-6ac1b571-3cc9-415e-9611-03fc75dcd27b.png)
-
-6.	Path for output files can be configure in ProcessSuccessOutput.java file
-
-![image](https://user-images.githubusercontent.com/88259438/144788517-9203a80f-7530-4fa6-93e7-81909c042a11.png)
-
-7.	Path for failed output can be configure in ProcessFailedOutput.java file
-
-![image](https://user-images.githubusercontent.com/88259438/144788529-eddcb46e-8c96-4768-a981-f706bdcbb408.png)
+![image](https://user-images.githubusercontent.com/88259438/144795995-30dd7553-6952-42fa-8431-ef4ff88a954d.png)
 
 Design patterns Used: 
 Factory Pattern: 
@@ -76,38 +75,32 @@ Class Diagram:
 ![image](https://user-images.githubusercontent.com/88259438/144788549-8b268041-4dbd-4a88-9df6-fb606733dbc0.png)
   
 Intermediate terminal screenshots:
+
+Result from command prompt: 
  
-Intermediate terminal: Input1 – Sheet1.csv
+![image](https://user-images.githubusercontent.com/88259438/144796092-5f6f92a4-0dbe-48a3-ac53-1071431b2aa5.png)
+
+Result if ran from Eclipse:
  
-![image](https://user-images.githubusercontent.com/88259438/144788570-217983cf-c84b-4ea7-8bc8-9723ca6acf67.png)
- 
-Intermediate terminal: Input2 – Sheet1.csv
- 
-![image](https://user-images.githubusercontent.com/88259438/144788587-afd097b4-ee4f-460c-8e6f-312731e96de4.png)
- 
-Intermediate terminal: Input3 – Sheet1.csv
- 
-![image](https://user-images.githubusercontent.com/88259438/144788598-6ccf2692-e6ea-459d-b387-70d140aeafd3.png)
- 
-Result:
+![image](https://user-images.githubusercontent.com/88259438/144796142-716ce6d4-8bfc-4842-8a2d-c5af9f4338bd.png)
  
 1.Testcase1(Input1 – sheet1.csv)
  
-Result: Successfully processed order
+Result running from command prompt: Successfully processed order
  
-![image](https://user-images.githubusercontent.com/88259438/144788619-66699717-fc85-4f96-91eb-e9838d979776.png)
+![image](https://user-images.githubusercontent.com/88259438/144796176-9b933827-cf71-46d7-85b4-24b8ca6fbc5f.png)
  
 Test case2(Input2 – sheet1.csv)
  
-Result: Exceeded quantity stock
+Result running from command prompt: Exceeded quantity stock
  
-![image](https://user-images.githubusercontent.com/88259438/144788626-d72f528b-ef04-490d-9fcc-ce1fce570cac.png)
+![image](https://user-images.githubusercontent.com/88259438/144796237-eb5ebd7e-20a2-42ec-b13e-cf75cf2976a4.png)
  
 Test case3(Input3 – sheet1.csv)  
  
-Result: Successfully processed order
+Result running from command prompt: Successfully processed order
  
-![image](https://user-images.githubusercontent.com/88259438/144788665-83c4ce52-1233-4683-9b72-8e27e2e466bd.png)
+![image](https://user-images.githubusercontent.com/88259438/144796255-6c2997f4-d12d-4eeb-9a69-c4148f64327d.png)
  
  
 
