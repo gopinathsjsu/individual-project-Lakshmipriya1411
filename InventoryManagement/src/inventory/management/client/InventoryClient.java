@@ -35,7 +35,9 @@ public class InventoryClient implements FilenameFilter{
         	
 			init();
 			
-        	File directory = new File("C:/InventoryApp/");
+			String currentWorkingDir = System.getProperty("user.dir");
+			
+        	File directory = new File(currentWorkingDir);
         	              
             InventoryClient objClient= new InventoryClient("Input");      
            
