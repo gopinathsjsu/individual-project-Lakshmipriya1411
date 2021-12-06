@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface IProcessOutput {
 
-	public void renderOutput(List<InputInventory> ii) throws Exception;
+	public void renderOutput(List<InputInventory> ii,String filePath) throws Exception;
 	
 }

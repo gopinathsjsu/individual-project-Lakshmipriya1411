@@ -1,6 +1,11 @@
 package inventory.management.middleware;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import inventory.management.client.IIterator;
 import inventory.management.client.InputInventory;
+import inventory.management.client.ItemRepository;
 import inventory.management.server.Inventory;
 import inventory.management.server.Repository.IInventoryRepository;
 import inventory.management.server.Repository.InventoryItem;
@@ -18,57 +23,66 @@ public class CheckQuantityCap extends Middleware {
 		LUXURY,
 		MISC
 	}
-	public boolean isValidInventory(InputInventory item) {
-	    boolean isValidItem=true;	
-	    
+	public List<InputInventory> isValidInventory(List<InputInventory> items) {
+	    //boolean isValidItem=true;
+		List<InputInventory> lstII=new ArrayList<InputInventory>();
+		ItemRepository itemsRepository = new ItemRepository();
 		try 
-		{			
-			InventoryItem it=this.server.readInventoryDetails(item.getItem());
-		    switch(Categories.valueOf(it.Category.toUpperCase()))
+		{
+		  int essentialCount=0;
+		  int luxuryCount=0;
+		  int miscCount=0;
+		  List<InputInventory> lstEssentials=new ArrayList<InputInventory>();
+		  List<InputInventory> lstLuxuries=new ArrayList<InputInventory>();
+		  List<InputInventory> lstMisc=new ArrayList<InputInventory>();
+		  for(IIterator iterate = itemsRepository.getIterator(items); iterate.hasNext();){ 
+			InputInventory itemNext= (InputInventory)iterate.next();  
+			InventoryItem item=server.readInventoryDetails(itemNext.getItem());		
+			//InventoryItem it=this.server.readInventoryDetails(item.getItem());
+		    switch(Categories.valueOf(item.Category.toUpperCase()))
 		    {
-		    	case ESSENTIAL: if(item.getQuantity()>Inventory.MAXEssentials)
-		    					{
-		    						//isValidItem= ?false:true;return isValidItem;
-		    						System.out.println("item quantity is greater than the max lmit on essentials");
-		    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
-		    						return false;
-		    					}else
-		    					{
-		    						//isValidItem= ?false:true;return isValidItem;
-		    						System.out.println("item quantity is less than the max lmit on essentials");
-		    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
-		    						return true;
-		    					}
-		    	case LUXURY: if(item.getQuantity()>Inventory.MAXLuxury)
-		    				 {
-		    						System.out.println("item quantity is greater than the max lmit on Luxury");
-		    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
-		    						return false;
-		    				 }
-		    				 else
-		    				 {
-		    					 	System.out.println("item quantity is less than the max lmit on Luxury");
-		    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
-		    						return true;
-		    		  		 }
-		    	case MISC:  if(item.getQuantity()>Inventory.MAXMisc)
-		    				{
-		    						//?false:true;return isValidItem;
-		    					System.out.println("item quantity is greater than the max lmit on Misc");
-		    					System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
-		    					return false;
-		    				}
-		    				else
-		    				{
-		    					System.out.println("item quantity is less than the max lmit on Misc");
-	    						System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
-	    						return true;
-		    				}
+		    	case ESSENTIAL: essentialCount+=itemNext.getQuantity();lstEssentials.add(itemNext);break;
+		    	case LUXURY: luxuryCount+=itemNext.getQuantity();lstLuxuries.add(itemNext);break;
+		    	case MISC:  miscCount+=itemNext.getQuantity();lstMisc.add(itemNext);break;
 		    } 
+		  }
+		  if(essentialCount>Inventory.MAXEssentials)
+		  {
+			  for(int i=0;i<lstEssentials.size();i++)
+			  {
+				  InputInventory item=lstEssentials.get(i);
+				  System.out.println("The input item quantity Essential is greater than the MAX cap quantity!");
+		          System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
+				  lstII.add(lstEssentials.get(i));
+			  }
+		  }
+		  else if(luxuryCount>Inventory.MAXLuxury)
+		  {
+			  for(int j=0;j<lstLuxuries.size();j++)
+			  {
+				  InputInventory item=lstLuxuries.get(j);
+				  System.out.println("The input item quantity Luxury is greater than the MAX cap quantity!");
+		          System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
+				  lstII.add(lstLuxuries.get(j)); 
+			  }
+		  }
+		  else if(miscCount>Inventory.MAXMisc)
+		  {
+			  for(int k=0;k<lstMisc.size();k++)
+			  {
+				  InputInventory item=lstLuxuries.get(k);
+				  System.out.println("The input item quantity Misc is greater than the MAX cap quantity!");
+		          System.out.println(item.getItem()+" "+item.getQuantity()+" "+item.getCardNumber());
+				  lstII.add(lstMisc.get(k));  
+			  }
+		  }
+		  
+		  return lstII;
+		  
 		} catch (Exception e) {			
 			e.printStackTrace();
 		}	
 	   
-	    return checkNext(item);
+	    return checkNext(lstII);
 	}	
 }

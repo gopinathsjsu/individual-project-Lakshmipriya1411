@@ -9,6 +9,7 @@ import inventory.management.client.IIterator;
 import inventory.management.client.InputInventory;
 import inventory.management.client.ItemRepository;
 import inventory.management.middleware.Middleware;
+import inventory.management.middleware.CheckQuantityCap.Categories;
 import inventory.management.server.Repository.IInventoryRepository;
 import inventory.management.server.Repository.InventoryItem;
 import inventory.management.server.Repository.InventoryRepository;
@@ -33,31 +34,21 @@ public class Inventory {
 		
 	        this.middleware = middleware;
 	}
+	public enum Categories {
+		ESSENTIAL,
+		LUXURY,
+		MISC
+	}
 	public List<InputInventory> processInventories(List<InputInventory> lstInventories)
 	{
-		 	boolean success;
-		 	List<InputInventory> failedInventory=new ArrayList<InputInventory>();    
-		 	ItemRepository itemsRepository = new ItemRepository();
-		 	for(IIterator iter = itemsRepository.getIterator(lstInventories); iter.hasNext();){            	
-			InputInventory ipInv= (InputInventory)iter.next();         	
-         	success = processInventory(ipInv);
-         	if(!success)
-         	{
-         		failedInventory.add(ipInv);        
-         	}
-		 }
+		 	
+         	List<InputInventory> failedInventory = middleware.isValidInventory(lstInventories);
+           	System.out.println("verification have been successful!"); 
+         	
 		 	if(failedInventory.size()==0)
 		 		chkAndAddCard(lstInventories);
 			return failedInventory;
 	}
-	public boolean processInventory(InputInventory ipInv) {
-		
-        if (middleware.isValidInventory(ipInv)) {
-            System.out.println("verification have been successful!");           
-            return true;
-        }
-        return false;
-    }
 	
 	public void addNewCardDetails(String card)
 	{
@@ -79,8 +70,8 @@ public class Inventory {
          		addNewCardDetails(ipInv.getCardNumber());
          	}
          }	
-		 System.out.println("Unique cards in the databse:");
-		inventoryRepo.readCards();
+		 System.out.println("All newly added and existing unique cards in the databse:");
+		 inventoryRepo.readCards();
 	}
 	public InventoryItem readInventoryDetails(String itemName)
 	{

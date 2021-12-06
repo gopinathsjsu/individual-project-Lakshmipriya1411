@@ -1,5 +1,7 @@
 package inventory.management.client;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +10,21 @@ import inventory.management.middleware.IsValidInventoryQuantity;
 import inventory.management.middleware.Middleware;
 import inventory.management.server.Inventory;
 
-public class InventoryClient {
+public class InventoryClient implements FilenameFilter{
 	private static Inventory server;
 	private static Output ipo;
-	private static List<InputInventory> lstInputInv=new ArrayList<InputInventory>();
+	
+	private static String initials;    
+    
+    public InventoryClient(String initials)
+    {
+        InventoryClient.initials = initials;
+    }
+    
+    public boolean accept(File dir, String name)
+    {
+        return name.startsWith(initials);
+    }
 	private static void init() throws Exception {
         server = new Inventory();        
         Middleware middleware = new IsValidInventoryQuantity(server);
@@ -19,39 +32,64 @@ public class InventoryClient {
         server.setMiddleware(middleware);
     }
 	public static void main(String[] args) throws Exception {
-        	init();        	        	  
-        	List<List<String>> lstItems=ReadInputCSV.readCSV("Input3 - Sheet1.csv");      
-        	 ItemRepository itemsRepository = new ItemRepository();
-             for(IIterator iter = itemsRepository.getIterator(lstItems); iter.hasNext();){
-                InputInventory iinv=new InputInventory();
-				@SuppressWarnings("unchecked")
-				List<String> itm = (List<String>)iter.next();
-				IIterator iter2 = itemsRepository.getIterator(itm);
-				if(iter2.hasNext())
-					iinv.setItem((String)iter2.next());
-				if(iter2.hasNext())
-					iinv.setQuantity((String)iter2.next());
-				if(iter2.hasNext())
-					iinv.setCardNumber((String)iter2.next());
-				lstInputInv.add(iinv);
-             }
-                          
-            List<InputInventory> failedInventory = server.processInventories(lstInputInv);                    
-            if(failedInventory.size()==0)
-            {
-            	configureOutput(true);
-            	runOutput(lstInputInv);
+        	
+			init();
+			
+        	File directory = new File("C:/InventoryApp/");
+        	              
+            InventoryClient objClient= new InventoryClient("Input");      
+           
+            String[] flist = directory.list(objClient);
+      
+            if (flist == null) {
+            	
+                System.out.println(
+                    "Empty directory or directory does not exists.");
             }
-            else
-            {
-            	configureOutput(false);
-            	runOutput(failedInventory);
-            }       
+            else {     
+               
+                for (int i = 0; i < flist.length; i++) {
+                    System.out.println(flist[i]+" found");
+                    List<List<String>> lstItems= new ArrayList<List<String>>();
+                    List<InputInventory> lstInputInv=new ArrayList<InputInventory>();
+                    lstItems=ReadInputCSV.readCSV(flist[i]);      
+               	 	ItemRepository itemsRepository = new ItemRepository();
+                    for(IIterator iter = itemsRepository.getIterator(lstItems); iter.hasNext();){
+                       InputInventory iinv=new InputInventory();
+       				@SuppressWarnings("unchecked")
+       				List<String> itm = (List<String>)iter.next();
+       				IIterator iter2 = itemsRepository.getIterator(itm);
+       				if(iter2.hasNext())
+       					iinv.setItem((String)iter2.next());
+       				if(iter2.hasNext())
+       					iinv.setQuantity((String)iter2.next());
+       				if(iter2.hasNext())
+       					iinv.setCardNumber((String)iter2.next());
+       				lstInputInv.add(iinv);
+                    }
+                                 
+                   List<InputInventory> failedInventory = server.processInventories(lstInputInv);  
+                   
+                   if(failedInventory.size()==0)
+                   {
+                	String path ="Output sheet"+(i+1)+".csv";
+                   	configureOutput(true);                   	
+                   	runOutput(lstInputInv,path);
+                   }
+                   else
+                   {
+                    String path ="Output sheet"+(i+1)+".txt";
+                   	configureOutput(false);
+                   	runOutput(failedInventory,path);
+                   }
+                    
+                }
+            }       	       
     }
-	private static void runOutput(List<InputInventory> ii) {
+	private static void runOutput(List<InputInventory> ii,String filePath) {
 		try 
 		{		
-			ipo.generateOutput().renderOutput(ii);
+			ipo.generateOutput().renderOutput(ii,filePath);
 		} catch (Exception e) {			
 			e.printStackTrace();
 		};
@@ -67,3 +105,4 @@ public class InventoryClient {
 		}		
 	}
 }
+

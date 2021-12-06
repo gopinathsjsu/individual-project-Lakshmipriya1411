@@ -10,8 +10,8 @@ import inventory.management.server.Repository.InventoryItem;
 
 public class InventoryItemDAOImpl implements InventoryItemDAO{
 
-	   private final Map<String,Map<String,String>> inventoryManager;
-	   private final Map<String,String> creditCardManager;
+	   private static Map<String,Map<String,String>> inventoryManager;
+	   private static Map<String,String> creditCardManager;
 	   
 	   public InventoryItemDAOImpl() throws Exception {
 		   inventoryManager=CSVFileReader.loadDataFromCSV("Dataset - Sheet1.csv");

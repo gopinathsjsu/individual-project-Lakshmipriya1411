@@ -1,5 +1,8 @@
 package inventory.management.middleware;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import inventory.management.client.InputInventory;
 
 public abstract class Middleware implements IValidInventory {
@@ -9,10 +12,11 @@ public abstract class Middleware implements IValidInventory {
 	        return next;
 	}
 	
-	public abstract boolean isValidInventory(InputInventory item);
-	protected boolean checkNext(InputInventory item) {
+	public abstract List<InputInventory> isValidInventory(List<InputInventory> item);
+	protected List<InputInventory> checkNext(List<InputInventory> item) {
 	        if (next == null) {
-	            return true;
+	        	List<InputInventory> lstii=new ArrayList<InputInventory>();
+	            return lstii;
 	        }
 	        return next.isValidInventory(item);
 	 }

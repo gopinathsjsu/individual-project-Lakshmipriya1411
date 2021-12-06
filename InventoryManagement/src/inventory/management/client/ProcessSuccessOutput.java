@@ -33,9 +33,9 @@ public class ProcessSuccessOutput implements IProcessOutput{
 
     }
 	@Override
-	public void renderOutput(List<InputInventory> ii) throws Exception {		
+	public void renderOutput(List<InputInventory> ii,String filePath) throws Exception {		
 		List<String[]> csvData = createCsvDataSpecial(ii);
-		try (CSVWriter writer = new CSVWriter(new FileWriter("SuccessOutput.csv"))) {
+		try (CSVWriter writer = new CSVWriter(new FileWriter(filePath,false))) {
 	            writer.writeAll(csvData);
 	    }
 		catch(Exception ex)
