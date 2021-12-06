@@ -11,12 +11,12 @@ Project Language: Java
 How to run/Invoking the code:
 Steps to run:
 Run from Command Prompt:
-1.	Create a folder InventoryApp in C folder
+1.	Create a folder in any directory(preferrably C) and download the jar file into that folder
 
 ![image](https://user-images.githubusercontent.com/88259438/144795602-9c3217ee-8f17-488f-8189-951b5200cdc9.png)
 
 2.	Download the InventoryApp.jar file from Git Repository.
-3.	Place all the input and dataset and creditcard csv files in the same folder (C:/InventoryApp/)
+3.	Place all the input and dataset and creditcard csv files in the same folder (Ex: C:/InventoryApp/)
 4.	Run the jar file from command prompt in windows using this command
 
 ![image](https://user-images.githubusercontent.com/88259438/144795685-6101441b-496e-4c23-b087-8397628b4bae.png)
@@ -27,7 +27,7 @@ Run from Command Prompt:
 Run from Eclipse:
 
 1.	Git clone the repository by going to Window-> Show view-> Other -> Git -> Git Repositories -> Clone a Git Repository -> choose the working directory in local.
-2.	Place all the dataset, creditcard and input csv files in (C:/InventoryApp/) folder.
+2.	Place all the dataset, creditcard and input csv files in the project root folder.
 
 ![image](https://user-images.githubusercontent.com/88259438/144795952-7f11ff3b-3744-412f-9a88-91785931a5ad.png)
 
